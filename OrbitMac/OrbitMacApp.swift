@@ -71,7 +71,7 @@ struct OrbitMacApp: App {
                 .padding(.horizontal)
                 .padding(.bottom, 10)
             }
-            .frame(width: 250, height: daemonManager.isRunning ? 200 : 130, alignment: .top)
+            .frame(width: 250)
         }
         .menuBarExtraStyle(.window) // Uses a SwiftUI View popover instead of a native menu
     }
