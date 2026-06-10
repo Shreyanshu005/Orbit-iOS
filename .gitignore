@@ -1,0 +1,8 @@
+.env
+.DS_Store
+OrbitMac/build
+orbitd/orbitd-bin
+Termy/.build
+DerivedData
+*.xcodeproj/xcuserdata
+*.xcworkspace/xcuserdata
