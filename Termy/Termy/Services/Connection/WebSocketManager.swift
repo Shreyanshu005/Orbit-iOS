@@ -15,7 +15,7 @@ class WebSocketManager: ObservableObject {
     private var webSocketTask: URLSessionWebSocketTask?
     private let urlSession = URLSession(configuration: .default)
     
-    var hostUrl: String = "wss://orbit-production-1a51.up.railway.app/ws/ios"
+    var hostUrl: String = "wss://orbit-kdps.onrender.com/ws/ios"
     private var currentSessionId: String = ""
     
     // UserDefaults Keys

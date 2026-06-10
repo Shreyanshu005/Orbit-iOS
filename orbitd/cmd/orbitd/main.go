@@ -41,7 +41,7 @@ func main() {
 	relayClient := network.NewRelayClient(queueMgr, ptyMgr, orchestrator)
 	
 	// Switch to production relay
-	relayURL := "wss://orbit-production-1a51.up.railway.app/ws/mac"
+	relayURL := "wss://orbit-kdps.onrender.com/ws/mac"
 	
 	err = relayClient.Connect(relayURL)
 	if err != nil {
