@@ -43,6 +43,8 @@ func (c *RelayClient) Connect(url string) error {
 	if err != nil {
 		return err
 	}
+	c.conn = conn
+
 	// 1. Send mac_register (backwards compatible blank payload)
 	c.sendEnvelope("mac_register", "", "")
 
