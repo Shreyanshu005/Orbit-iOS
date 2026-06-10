@@ -39,7 +39,7 @@ func NewOrchestrator(ptyMgr *pty.PTYManager, queueMgr *approval.QueueManager) *O
 
 // Start spawns a background routine to observe the PTY output.
 func (o *Orchestrator) Start(ptyOutput <-chan []byte) {
-	const maxBuffer = 4096 // Keep last 4KB of terminal output
+	const maxBuffer = 32768 // Keep last 32KB of terminal output
 
 	go func() {
 		idleTimer := time.NewTimer(1 * time.Second)
@@ -128,6 +128,10 @@ func (o *Orchestrator) stepAgentLoop() {
 	isApproved := <-decisionChan
 	if isApproved {
 		log.Println("Agent: Loop request approved. Executing and waiting for idle...")
+		
+		marker := []byte(fmt.Sprintf("\r\n[SYSTEM: EXECUTING '%s']\r\n", req.ProposedCommand))
+		o.buffer = append(o.buffer, marker...)
+		
 		o.ptyMgr.Write([]byte(req.ProposedCommand + "\r\n"))
 		
 		// Delay enabling idle detection to ensure the PTY starts echoing the command first.
