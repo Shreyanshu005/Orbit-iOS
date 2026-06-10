@@ -130,10 +130,12 @@ func (c *GroqClient) AskWithTask(task string, contextBuffer string) (*AIResponse
 The user wants you to achieve the following goal: "%s".
 Use the provided terminal buffer ONLY to understand the current OS, directory, or state context.
 
-You must work iteratively, proposing ONE single command at a time.
-- If you need to investigate the environment (e.g., check files to see what type of project it is), propose an investigatory command like "ls -la" or "cat package.json".
-- If the goal requires multiple steps, propose the NEXT logical step.
-- Once you determine the ultimate goal has been fully achieved, set "isComplete" to true.
+CRITICAL RULES:
+1. You must work iteratively, proposing ONE single command at a time.
+2. If you need to investigate the environment, propose an investigatory command like "ls -la".
+3. Pay close attention to the output of your PREVIOUS command in the buffer. If your last command produced NO output (e.g., grep found nothing), or failed with an error, DO NOT repeat the exact same command. Try a different approach (like using 'find ~ -iname "*name*"' instead of 'ls').
+4. If the goal is impossible or you are completely stuck, propose a command like "echo 'I could not achieve this'" and set "isComplete" to true.
+5. Once you determine the ultimate goal has been fully achieved, set "isComplete" to true.
 
 You must respond in strict JSON format matching exactly this schema:
 {
