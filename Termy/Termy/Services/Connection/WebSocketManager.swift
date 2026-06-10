@@ -234,6 +234,11 @@ class WebSocketManager: ObservableObject {
                     self?.webSocketTask = localTask
                     self?.isAuthenticated = true // Automatically authenticated on Local network!
                     self?.receiveMessage(for: localTask)
+                    
+                    // Force the Mac terminal to print a fresh prompt
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                        self?.sendPtyData(Data([0x0D])) // Send 'Enter' keystroke
+                    }
                 }
             }
         }
