@@ -15,7 +15,7 @@ class WebSocketManager: ObservableObject {
     private var webSocketTask: URLSessionWebSocketTask?
     private let urlSession = URLSession(configuration: .default)
     
-    var hostUrl: String = "wss://orbit-production-1a51.up.railway.app/ws/ios"
+    var hostUrl: String = "ws://192.168.31.55:8081/ws/ios"
     private var currentSessionId: String = ""
     
     // UserDefaults Keys
@@ -227,6 +227,7 @@ class WebSocketManager: ObservableObject {
                 DispatchQueue.main.async {
                     self?.webSocketTask?.cancel(with: .normalClosure, reason: nil)
                     self?.webSocketTask = localTask
+                    self?.isAuthenticated = true // Automatically authenticated on Local network!
                     self?.receiveMessage()
                 }
             }

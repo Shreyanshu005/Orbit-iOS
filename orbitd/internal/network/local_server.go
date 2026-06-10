@@ -65,7 +65,6 @@ func (s *LocalServer) handleConnection(w http.ResponseWriter, r *http.Request) {
 		switch env.Type {
 		case "local_auth":
 			log.Println("✅ Local P2P connection authorized with session:", env.SessionID)
-			// Successfully authenticated locally.
 		case "ai_task":
 			go s.orch.HandleTask(env.Payload)
 		case protocol.TypePTYInput:
