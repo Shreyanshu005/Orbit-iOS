@@ -39,7 +39,7 @@ func NewOrchestrator(ptyMgr *pty.PTYManager, queueMgr *approval.QueueManager) *O
 
 // Start spawns a background routine to observe the PTY output.
 func (o *Orchestrator) Start(ptyOutput <-chan []byte) {
-	const maxBuffer = 32768 // Keep last 32KB of terminal output
+	const maxBuffer = 10000 // Keep last 10KB of terminal output
 
 	go func() {
 		idleTimer := time.NewTimer(1 * time.Second)
