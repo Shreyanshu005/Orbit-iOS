@@ -35,7 +35,9 @@ class WebSocketManager: ObservableObject {
         webSocketTask?.resume()
         
         isConnected = true
-        receiveMessage()
+        if let task = webSocketTask {
+            receiveMessage(for: task)
+        }
         
         // Initiate Relay connection
         if let code = pairingCode, !code.isEmpty {
@@ -101,8 +103,11 @@ class WebSocketManager: ObservableObject {
         }
     }
     
-    private func receiveMessage() {
-        webSocketTask?.receive { [weak self] result in
+    private func receiveMessage(for task: URLSessionWebSocketTask) {
+        task.receive { [weak self] result in
+            // Prevent cancelled tasks from killing the active connection
+            guard self?.webSocketTask == task else { return }
+            
             switch result {
             case .failure(let error):
                 print("WebSocket receive error: \(error)")
@@ -117,7 +122,7 @@ class WebSocketManager: ObservableObject {
                 @unknown default:
                     break
                 }
-                self?.receiveMessage()
+                self?.receiveMessage(for: task)
             }
         }
     }
@@ -228,7 +233,7 @@ class WebSocketManager: ObservableObject {
                     self?.webSocketTask?.cancel(with: .normalClosure, reason: nil)
                     self?.webSocketTask = localTask
                     self?.isAuthenticated = true // Automatically authenticated on Local network!
-                    self?.receiveMessage()
+                    self?.receiveMessage(for: localTask)
                 }
             }
         }
