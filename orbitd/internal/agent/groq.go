@@ -19,7 +19,7 @@ type GroqClient struct {
 func NewGroqClient() *GroqClient {
 	return &GroqClient{
 		apiKey: os.Getenv("GROQ_API_KEY"),
-		model:  "llama-3.1-8b-instant",
+		model:  "llama/llama-4-scout-17b-16e-instruct",
 	}
 }
 
